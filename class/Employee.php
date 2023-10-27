@@ -39,10 +39,8 @@ class Employee
             $statement->bind_param("sss", $this->name, $this->email, $this->address);
 
             if ($statement->execute()) {
-                echo 'Success';
                 return true;
             } else {
-                echo 'Failed';
                 return false;
             }
         }
