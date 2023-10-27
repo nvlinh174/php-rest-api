@@ -21,7 +21,7 @@ class Employee
         $sql = "SELECT * FROM {$this->table}";
         $statement = $this->connection->prepare($sql);
 
-        $statement->excute();
+        $statement->execute();
         $result = $statement->get_result();
 
         return $result;
@@ -31,7 +31,7 @@ class Employee
     public function store()
     {
         $sql = "INSERT INTO {$this->table} (name, email, address) VALUES (?, ?, ?)";
-        if ($statement = $this->connection->prepare()) {
+        if ($statement = $this->connection->prepare($sql)) {
             $this->name = htmlspecialchars(strip_tags($this->name));
             $this->email = htmlspecialchars(strip_tags($this->email));
             $this->address = htmlspecialchars(strip_tags($this->address));
@@ -53,7 +53,7 @@ class Employee
         $statement = $this->connection->prepare($sql);
         $statement->bind_param('i', $this->id);
 
-        $statement->excute();
+        $statement->execute();
         $result = $statement->get_result();
 
         return $result;
@@ -62,6 +62,21 @@ class Employee
     // update
     public function update()
     {
+        $sql = "UPDATE {$this->table} SET name = ?, email = ?, address = ? WHERE id = ?";
+        $statement = $this->connection->prepare($sql);
+
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->address = htmlspecialchars(strip_tags($this->address));
+
+        $statement->bind_param('sssi', $this->name, $this->email, $this->email, $this->id);
+
+        if ($statement->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // delete
