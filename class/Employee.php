@@ -18,6 +18,13 @@ class Employee
     // get all
     public function index()
     {
+        $sql = "SELECT * FROM {$this->table}";
+        $statement = $this->connection->prepare($sql);
+
+        $statement->excute();
+        $result = $statement->get_result();
+
+        return $result;
     }
 
     // insert
@@ -42,6 +49,14 @@ class Employee
     // get one
     public function show()
     {
+        $sql = "SELECT * FROM {$this->table} WHERE id = ?";
+        $statement = $this->connection->prepare($sql);
+        $statement->bind_param('i', $this->id);
+
+        $statement->excute();
+        $result = $statement->get_result();
+
+        return $result;
     }
 
     // update
