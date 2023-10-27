@@ -5,10 +5,10 @@ class Employee
     private $table = 'employees';
     private $connection;
 
-    private $id;
-    private $name;
-    private $email;
-    private $address;
+    public $id;
+    public $name;
+    public $email;
+    public $address;
 
     public function __construct($db)
     {
@@ -39,8 +39,10 @@ class Employee
             $statement->bind_param("sss", $this->name, $this->email, $this->address);
 
             if ($statement->execute()) {
+                echo 'Success';
                 return true;
             } else {
+                echo 'Failed';
                 return false;
             }
         }
@@ -86,7 +88,7 @@ class Employee
         $statement = $this->connection->prepare($sql);
 
         $this->id = htmlspecialchars(strip_tags($this->id));
-        
+
         $statement->bind_param('i', $this->id);
 
         if ($statement->execute()) {
