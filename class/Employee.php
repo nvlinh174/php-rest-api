@@ -82,6 +82,18 @@ class Employee
     // delete
     public function destroy()
     {
+        $sql = "DELETE FROM {$this->table} WHERE id = ?";
+        $statement = $this->connection->prepare($sql);
+
+        $this->id = htmlspecialchars(strip_tags($this->id));
+        
+        $statement->bind_param('i', $this->id);
+
+        if ($statement->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
